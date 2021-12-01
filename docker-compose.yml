@@ -1,0 +1,15 @@
+version: "3.6"
+services:
+        influxdb:
+                image: influxdb:latest
+                command: influxdb
+        aplicacion:
+                build:
+                        context: aplicación/
+                        dockerfile: Dockerfile
+                links:
+                 - influxdb
+                volumes:
+                 - ./python:/app:rw
+volumes:
+        python:
