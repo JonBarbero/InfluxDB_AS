@@ -1,8 +1,9 @@
 # Imagen base
 FROM ubuntu
 
-#Actualizar (UPDATE)
+#Actualizar
 RUN apt -qq update -y
+RUN apt-get -y upgrade
 
 #Descargar el enviroment
 RUN apt install python3-pip -y
