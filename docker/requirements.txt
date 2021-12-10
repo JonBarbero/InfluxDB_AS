@@ -1,16 +1,1 @@
-influxdb==5.3.1
-influxdb_client==1.24.0
-Point
-requests
-Rx
-certifi
-charset-normalizer
-idna
-msgpack
-pip
-python-dateutil
-pytz
-setuptools
-six
-urllib3
-wheel
+influxdb-client==1.24.0
