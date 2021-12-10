@@ -1,0 +1,40 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: influxdb
+   labels:
+     app: influxdb
+spec:
+   replicas: 1
+   selector:
+      matchLabels:
+         app: influxdb
+   template:
+      metadata:
+         labels:
+            app: influxdb
+      spec:
+         containers:
+            - name: influxdb
+              image: quay.io/influxdb/influxdb:v2.0.3
+              env:
+                - name: INFLUXDB_USERNAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: influxdb-secrets
+                      key: INFLUXDB_USERNAME
+                - name: INFLUXDB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: influxdb-secrets
+                      key: INFLUXDB_PASSWORD
+              volumeMounts:
+              - mountPath: /var/lib/influxdb
+                name: influxdb-data
+              ports:
+              - containerPort: 8086
+                name: influxdb
+         volumes:
+         - name: influxdb-data
+           persistentVolumeClaim:
+             claimName: influxdb-pvc

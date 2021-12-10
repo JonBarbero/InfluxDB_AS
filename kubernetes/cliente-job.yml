@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cliente-job
+  labels:
+    app: cliente
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: cliente
+          image: quay.io/influxdb/influxdb:v2.0.3
+          env:
+            - name: INFLUXDB_MODE
+              valueFrom:
+                secretKeyRef:
+                  name: influxdb-secrets
+                  key: INFLUXDB_MODE
+            - name: INFLUXDB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: influxdb-secrets
+                  key: INFLUXDB_USERNAME
+            - name: INFLUXDB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: influxdb-secrets
+                  key: INFLUXDB_PASSWORD
+            - name: INFLUXDB_ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: influxdb-secrets
+                  key: INFLUXDB_ADMIN_TOKEN
+            - name: INFLUXDB_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  name: influxdb-secrets
+                  key: INFLUXDB_BUCKET
+            - name: INFLUXDB_ORG
+              valueFrom:
+                secretKeyRef:
+                  name: influxdb-secrets
+                  key: INFLUXDB_ORG
+            - name: INFLUXDB_SERVICE_HOST
+              value: influxdb-service

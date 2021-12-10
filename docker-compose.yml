@@ -4,15 +4,25 @@ services:
   influxdb:
     image: influxdb:latest
     ports:
-      - '8086:8086'
-    volumes:
-      - influxdb-storage:/var/lib/influxdb
+      - "8086:8086"
+    expose:
+      - "8086"
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
+      # El usuario para meterse a influxdb
       - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      # La contraseña para meterse a influxdb
       - DOCKER_INFLUXDB_INIT_PASSWORD=changemeplease
+      # Organización inicial
       - DOCKER_INFLUXDB_INIT_ORG=my-org
+      # Cubo o bucket inicial
       - DOCKER_INFLUXDB_INIT_BUCKET=my-bucket
+      # Token de API para asociar con el usuario administrador. Si no se establece, InfluxDB genera automáticamente un token.
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-token
 
-volumes:
-    influxdb-storage:
+  app:
+    build:
+      context: docker/
+      dockerfile: Dockerfile
+    depends_on:
+      - influxdb
